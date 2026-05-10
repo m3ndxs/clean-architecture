@@ -1,14 +1,14 @@
 import 'package:meal_explorer/features/meal_recipes/domain/entities/meal_detail.dart';
 import 'package:meal_explorer/features/meal_recipes/domain/repositories/meal_repository.dart';
 
-abstract class SalveFavoriteMeal {
+abstract class SaveFavoriteMeal {
   Future<void> call(MealDetail meal);
 }
 
-class SalveFavoriteMealImpl implements SalveFavoriteMeal {
+class SaveFavoriteMealImpl implements SaveFavoriteMeal {
   final MealRepository repository;
 
-  SalveFavoriteMealImpl(this.repository);
+  SaveFavoriteMealImpl(this.repository);
   
   @override
   Future<void> call(MealDetail meal) async {

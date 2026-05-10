@@ -1,14 +1,14 @@
 import 'package:meal_explorer/features/meal_recipes/domain/entities/meal_detail.dart';
 import 'package:meal_explorer/features/meal_recipes/domain/repositories/meal_repository.dart';
 
-abstract class SearchMeal {
+abstract class SearchMeals {
   Future<List<MealDetail>> call(String name);
 }
 
-class SearchMealImpl implements SearchMeal {
+class SearchMealsImpl implements SearchMeals {
   final MealRepository repository;
 
-  SearchMealImpl(this.repository);
+  SearchMealsImpl(this.repository);
   
   @override
   Future<List<MealDetail>> call(String name) async {    
