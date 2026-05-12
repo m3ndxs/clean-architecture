@@ -1,6 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:meal_explorer/features/meal_recipes/domain/repositories/meal_repository.dart';
-import 'package:meal_explorer/features/meal_recipes/domain/usecases/remove_favorite_meal.dart';
 import 'package:meal_explorer/features/meal_recipes/domain/usecases/save_favorite_meal.dart';
 import 'package:mocktail/mocktail.dart';
 
