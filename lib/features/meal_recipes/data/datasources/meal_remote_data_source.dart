@@ -25,9 +25,9 @@ class MealRemoteDataSourceImpl implements MealRemoteDataSource {
       final response = await client.get(uri);
       if (response.statusCode == 200) {
         final jsonMap = jsonDecode(response.body) as Map<String, dynamic>;
-        final mealsList = jsonMap['meals'] as List<dynamic>;
+        final mealsList = jsonMap['meals'] as List<dynamic>?;
 
-        if (mealsList.isEmpty) {
+        if (mealsList == null || mealsList.isEmpty) {
           throw NotFoundException();
         }
 
@@ -35,8 +35,11 @@ class MealRemoteDataSourceImpl implements MealRemoteDataSource {
           mealsList.first as Map<String, dynamic>,
         );
       }
-      throw ServerException('Erro Interno no Servidor');
+      throw ServerException(
+        'Erro Interno no Servidor. Status: ${response.statusCode}',
+      );
     } catch (e) {
+      if (e is NotFoundException || e is ServerException) rethrow;
       throw InternalException('$e');
     }
   }
@@ -49,9 +52,9 @@ class MealRemoteDataSourceImpl implements MealRemoteDataSource {
       final response = await client.get(uri);
       if (response.statusCode == 200) {
         final jsonMap = jsonDecode(response.body) as Map<String, dynamic>;
-        final mealsList = jsonMap['meals'] as List<dynamic>;
+        final mealsList = jsonMap['meals'] as List<dynamic>?;
 
-        if (mealsList.isEmpty) {
+        if (mealsList == null || mealsList.isEmpty) {
           throw NotFoundException();
         }
 
@@ -59,8 +62,11 @@ class MealRemoteDataSourceImpl implements MealRemoteDataSource {
           mealsList.first as Map<String, dynamic>,
         );
       }
-      throw ServerException('Erro interno no Servidor');
+      throw ServerException(
+        'Erro Interno no Servidor. Status: ${response.statusCode}',
+      );
     } catch (e) {
+      if (e is NotFoundException || e is ServerException) rethrow;
       throw InternalException('$e');
     }
   }
@@ -73,16 +79,19 @@ class MealRemoteDataSourceImpl implements MealRemoteDataSource {
       final response = await client.get(uri);
       if (response.statusCode == 200) {
         final jsonMap = jsonDecode(response.body) as Map<String, dynamic>;
-        final mealsList = jsonMap['meals'] as List<dynamic>;
+        final mealsList = jsonMap['meals'] as List<dynamic>?;
 
-        if (mealsList.isEmpty) {
+        if (mealsList == null || mealsList.isEmpty) {
           throw NotFoundException();
         }
 
         return MealDetailModel.fromRemoteJsonList(mealsList);
       }
-      throw ServerException('Erro interno no Servidor');
+      throw ServerException(
+        'Erro Interno no Servidor. Status: ${response.statusCode}',
+      );
     } catch (e) {
+      if (e is NotFoundException || e is ServerException) rethrow;
       throw InternalException('$e');
     }
   }
