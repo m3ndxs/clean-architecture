@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:meal_explorer/features/meal_recipes/data/exceptions.dart';
 import 'package:meal_explorer/features/meal_recipes/data/models/meal_detail_model.dart';
 import 'package:meal_explorer/features/meal_recipes/domain/entities/meal_detail.dart';
 import 'package:http/http.dart' as http;
@@ -27,16 +28,16 @@ class MealRemoteDataSourceImpl implements MealRemoteDataSource {
         final mealsList = jsonMap['meals'] as List<dynamic>;
 
         if (mealsList.isEmpty) {
-          throw Exception();
+          throw NotFoundException();
         }
 
         return MealDetailModel.fromRemoteJson(
           mealsList.first as Map<String, dynamic>,
         );
       }
-      throw Exception();
-    } catch (_) {
-      rethrow;
+      throw ServerException('Erro Interno no Servidor');
+    } catch (e) {
+      throw InternalException('$e');
     }
   }
 
@@ -51,16 +52,16 @@ class MealRemoteDataSourceImpl implements MealRemoteDataSource {
         final mealsList = jsonMap['meals'] as List<dynamic>;
 
         if (mealsList.isEmpty) {
-          throw Exception();
+          throw NotFoundException();
         }
 
         return MealDetailModel.fromRemoteJson(
           mealsList.first as Map<String, dynamic>,
         );
       }
-      throw Exception();
-    } catch (_) {
-      rethrow;
+      throw ServerException('Erro interno no Servidor');
+    } catch (e) {
+      throw InternalException('$e');
     }
   }
 
@@ -75,14 +76,14 @@ class MealRemoteDataSourceImpl implements MealRemoteDataSource {
         final mealsList = jsonMap['meals'] as List<dynamic>;
 
         if (mealsList.isEmpty) {
-          throw Exception();
+          throw NotFoundException();
         }
 
         return MealDetailModel.fromRemoteJsonList(mealsList);
       }
-      throw Exception();
-    } catch (_) {
-      rethrow;
+      throw ServerException('Erro interno no Servidor');
+    } catch (e) {
+      throw InternalException('$e');
     }
   }
 }
