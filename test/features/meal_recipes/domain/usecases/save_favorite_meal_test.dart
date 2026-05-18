@@ -1,3 +1,4 @@
+import 'package:dartz/dartz.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:meal_explorer/features/meal_recipes/domain/repositories/meal_repository.dart';
 import 'package:meal_explorer/features/meal_recipes/domain/usecases/save_favorite_meal.dart';
@@ -22,18 +23,29 @@ void main() {
 
   group('SaveFavoriteMealImpl', () {
     test(
-      'Must call mockRepository.saveFavoriteMeal and return void when success',
+      'Must call mockRepository.saveFavoriteMeal and return Right(Unit) when success',
       () async {
         when(
           () => mockRepository.saveFavoriteMeal(any()),
-        ).thenAnswer((_) async {});
+        ).thenAnswer((_) async => const Right(unit));
 
-        await usecase(tMealDetail);
+        final result = await usecase(tMealDetail);
 
+        expect(result, const Right(unit));
         verify(
           () => mockRepository.saveFavoriteMeal(tMealDetail),
         ).called(1);
       },
     );
+
+    test('Must call mockRepository.saveFavoriteMeal and return Left(Failure)', () async {
+      when(
+        () => mockRepository.saveFavoriteMeal(any()),
+      ).thenAnswer((_) async => Left(tFailure));
+
+      final result = await usecase(tMealDetail);
+      expect(result, Left(tFailure));
+      verify(() => mockRepository.saveFavoriteMeal(tMealDetail)).called(1);
+    });
   });
 }

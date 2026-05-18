@@ -1,3 +1,4 @@
+import 'package:dartz/dartz.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:meal_explorer/features/meal_recipes/domain/repositories/meal_repository.dart';
 import 'package:meal_explorer/features/meal_recipes/domain/usecases/get_favorite_meals.dart';
@@ -18,15 +19,29 @@ void main() {
 
   group('GetFavoriteMeals', () {
     test(
-      'Must call mockRepository.getFavoriteMeals and return List<MealDetails> when success',
+      'Must call mockRepository.getFavoriteMeals and return Right(List<MealDetails>) when success',
       () async {
         when(
           () => mockRepository.getFavoriteMeals(),
-        ).thenAnswer((_) async => tListMealDetail);
+        ).thenAnswer((_) async => Right(tListMealDetail));
 
         final result = await usecase();
 
-        expect(result, tListMealDetail);
+        expect(result, Right(tListMealDetail));
+        verify(() => mockRepository.getFavoriteMeals()).called(1);
+      },
+    );
+
+    test(
+      'Must call repository.getFavoriteMeals and return Left(Failure)',
+      () async {
+        when(
+          () => mockRepository.getFavoriteMeals(),
+        ).thenAnswer((_) async => Left(tFailure));
+
+        final result = await usecase();
+
+        expect(result, Left(tFailure));
         verify(() => mockRepository.getFavoriteMeals()).called(1);
       },
     );
